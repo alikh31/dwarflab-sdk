@@ -39,17 +39,18 @@ jobs:
           npm_config_build_from_source: "false"
 
       # Re-run the full gate before publishing so a bad tag never ships.
+      # Build first: the BLE package typechecks/tests against the SDK's dist/.
       - name: Lint
         run: npm run lint
+
+      - name: Build
+        run: npm run build
 
       - name: Typecheck
         run: npm run typecheck
 
       - name: Test
         run: npm test
-
-      - name: Build
-        run: npm run build
 
       - name: Check tag matches package versions
         run: |

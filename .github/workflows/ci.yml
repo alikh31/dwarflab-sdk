@@ -41,14 +41,16 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # Build first: the BLE package imports @alikh/dwarflab-sdk and resolves it
+      # to the SDK's built dist/, so typecheck and tests need dist/ to exist.
+      - name: Build
+        run: npm run build
+
       - name: Typecheck
         run: npm run typecheck
 
       - name: Test
         run: npm test
-
-      - name: Build
-        run: npm run build
 
       # Sanity-check that the protobuf bindings committed to the repo still
       # match `proto/`. If this fails, run `npm run proto:generate` and commit.

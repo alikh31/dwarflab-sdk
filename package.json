@@ -17,10 +17,10 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces",
+    "build": "npm run build --workspace @alikh/dwarflab-sdk && npm run build --workspace @alikh/dwarflab-ble",
     "test": "npm run test --workspaces",
     "lint": "eslint packages/*/src/",
-    "typecheck": "npm run typecheck --workspaces",
+    "typecheck": "npm run typecheck --workspace @alikh/dwarflab-sdk && npm run typecheck --workspace @alikh/dwarflab-ble",
     "proto:generate": "node scripts/generate-proto.mjs"
   },
   "devDependencies": {
