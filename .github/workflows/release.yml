@@ -1,18 +1,7 @@
 name: Release
 
-# Publishes both packages to npm when a version tag is pushed, e.g.:
-#   git tag v0.1.0 && git push origin v0.1.0
-#
-# Authentication uses npm Trusted Publishing (OIDC) — there is NO npm token.
-# GitHub's OIDC identity for this workflow is exchanged for a short-lived,
-# single-use npm publish credential. Provenance attestation is automatic.
-#
-# One-time setup on npmjs.com (per package, after the first manual publish):
-#   Package → Settings → Trusted Publisher → GitHub Actions, with:
-#     Organization/user:  alikh31
-#     Repository:         dwarflab-sdk
-#     Workflow filename:  release.yml
-#   See the repo README/CONTRIBUTING for the full walkthrough.
+# Publishes both packages to npm on a version tag (e.g. `git push origin v0.1.0`).
+# Auth: npm Trusted Publishing (OIDC) — no token. Setup: see CONTRIBUTING.md.
 
 on:
   push:
@@ -38,9 +27,8 @@ jobs:
           registry-url: https://registry.npmjs.org
           cache: npm
 
-      # Trusted Publishing requires npm >= 11.5.1, which is newer than the npm
-      # bundled with Node 20. Upgrade the CLI before publishing.
-      - name: Upgrade npm (Trusted Publishing needs npm >= 11.5.1)
+      # Trusted Publishing needs npm >= 11.5.1 (newer than Node 20's bundled npm).
+      - name: Upgrade npm
         run: |
           npm install -g npm@latest
           npm --version
@@ -75,9 +63,6 @@ jobs:
           fi
 
       # Publish the core SDK first; @alikh/dwarflab-ble depends on it.
-      # No NODE_AUTH_TOKEN: Trusted Publishing mints the credential via OIDC.
-      # Each package's publishConfig sets access:public + provenance:true;
-      # --provenance/--access are passed explicitly for clarity.
       - name: Publish @alikh/dwarflab-sdk
         run: npm publish --workspace @alikh/dwarflab-sdk --provenance --access public
 

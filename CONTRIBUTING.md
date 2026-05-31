@@ -77,11 +77,10 @@ workflow in `.github/workflows/release.yml`:
 2. Tag `vX.Y.Z` and push the tag.
 3. CI builds and publishes both packages to npm with provenance.
 
-Publishing uses **npm Trusted Publishing (OIDC)** — there is no npm token in the
-repository. Each package must have a Trusted Publisher configured on npmjs.com
-(GitHub Actions → repo `alikh31/dwarflab-sdk`, workflow `release.yml`). The tag
-must equal the `version` field in both `package.json` files or the workflow
-fails fast.
+Publishing uses npm Trusted Publishing (OIDC) — no token is stored in the repo.
+Each package needs a Trusted Publisher configured on npmjs.com (GitHub Actions →
+`alikh31/dwarflab-sdk`, workflow `release.yml`). The tag must match the `version`
+in both `package.json` files or the release fails fast.
 
 ## License
 
