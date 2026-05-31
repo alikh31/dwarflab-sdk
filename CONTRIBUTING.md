@@ -70,17 +70,27 @@ are extremely valuable — please open an issue with:
 
 ## Releasing (maintainers)
 
-Releases are tag-driven. See [CHANGELOG.md](./CHANGELOG.md) and the release
-workflow in `.github/workflows/release.yml`:
+Releases are tag-driven and tokenless (npm Trusted Publishing / OIDC). To cut
+a release `vX.Y.Z`:
 
-1. Update versions and `CHANGELOG.md`.
-2. Tag `vX.Y.Z` and push the tag.
-3. CI builds and publishes both packages to npm with provenance.
+1. Bump `version` to `X.Y.Z` in **both** `packages/sdk/package.json` **and**
+   `packages/ble/package.json`. They must be equal and must match the tag — the
+   release workflow fails fast otherwise.
+2. Add an `X.Y.Z` entry to [CHANGELOG.md](./CHANGELOG.md).
+3. Commit, then tag and push:
+   ```bash
+   git tag vX.Y.Z
+   git push origin main --tags
+   ```
+4. `.github/workflows/release.yml` runs the full gate, then publishes both
+   packages to npm with provenance via OIDC. No token is involved.
+5. Create the GitHub Release (e.g. `gh release create vX.Y.Z --notes-file ...`).
 
-Publishing uses npm Trusted Publishing (OIDC) — no token is stored in the repo.
-Each package needs a Trusted Publisher configured on npmjs.com (GitHub Actions →
-`alikh31/dwarflab-sdk`, workflow `release.yml`). The tag must match the `version`
-in both `package.json` files or the release fails fast.
+Each package already has a Trusted Publisher configured on npmjs.com (GitHub
+Actions → `alikh31/dwarflab-sdk`, workflow `release.yml`). If you add a third
+package, configure its Trusted Publisher the same way before its first CI
+publish, and bootstrap its very first version with a local `npm publish`
+(npm has no trusted-publisher setup for a package that does not yet exist).
 
 ## License
 
