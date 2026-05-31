@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package dwarflab.track;
+
+option java_package = "com.convergence.dwarflab.proto";
+option java_outer_classname = "TrackProto";
+
+message ReqStartTrack {
+  int32 x = 1;
+  int32 y = 2;
+  int32 w = 3;
+  int32 h = 4;
+  int32 cam_id = 5;
+}
+
+message ReqStopTrack {}
+
+message ReqPauseTrack {}
+
+message ReqContinueTrack {}
+
+message ReqStartSentryMode {
+  int32 type = 1;
+}
+
+message ReqStopSentryMode {}
+
+message ReqMOTTrackOne {
+  int32 id = 1;
+}
+
+message ReqUFOAutoHandMode {
+  int32 mode = 1;
+}
+
+message ReqStartTrackClick {
+  int32 x = 1;
+  int32 y = 2;
+  int32 cam_id = 3;
+}

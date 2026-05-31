@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-progress runs for the same ref (e.g. force-pushes to a PR).
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Lint, typecheck, test, build (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [18, 20, 22]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      # `@abandonware/noble` (a BLE dep) has optional native bindings that may
+      # fail to build in CI. Allow install to proceed; the BLE unit tests only
+      # exercise pure functions and never load noble.
+      - name: Install dependencies
+        run: npm ci
+        env:
+          npm_config_build_from_source: "false"
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      # Sanity-check that the protobuf bindings committed to the repo still
+      # match `proto/`. If this fails, run `npm run proto:generate` and commit.
+      - name: Verify generated protobuf bindings are up to date
+        if: matrix.node == 20
+        run: |
+          npm run proto:generate
+          if ! git diff --quiet -- packages/sdk/src/generated; then
+            echo "::error::Generated protobuf bindings are out of date. Run 'npm run proto:generate' and commit the result."
+            git --no-pager diff --stat -- packages/sdk/src/generated
+            exit 1
+          fi

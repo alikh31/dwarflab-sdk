@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package dwarflab.rgb;
+
+option java_package = "com.convergence.dwarflab.proto";
+option java_outer_classname = "RGBProto";
+
+message ReqOpenRgb {}
+message ReqCloseRgb {}
+message ReqPowerDown {}
+message ReqOpenPowerInd {}
+message ReqClosePowerInd {}
+message ReqReboot {}

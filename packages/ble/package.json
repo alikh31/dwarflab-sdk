@@ -1,0 +1,61 @@
+{
+  "name": "@alikh/dwarflab-ble",
+  "version": "0.1.0",
+  "description": "Unofficial BLE setup package for DWARFLAB DWARF telescopes — Wi-Fi configuration and discovery (Node.js only)",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@abandonware/noble": "^1.9.2-26",
+    "@alikh/dwarflab-sdk": "^0.1.0"
+  },
+  "keywords": [
+    "dwarflab",
+    "dwarf",
+    "telescope",
+    "bluetooth",
+    "ble",
+    "noble"
+  ],
+  "license": "MIT",
+  "author": "alikh31",
+  "homepage": "https://github.com/alikh31/dwarflab-sdk/tree/main/packages/ble#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alikh31/dwarflab-sdk.git",
+    "directory": "packages/ble"
+  },
+  "bugs": {
+    "url": "https://github.com/alikh31/dwarflab-sdk/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

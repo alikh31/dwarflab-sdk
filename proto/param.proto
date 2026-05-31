@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package dwarflab.param;
+
+option java_package = "com.convergence.dwarflab.proto";
+option java_outer_classname = "ParamProto";
+
+message ReqSetExposure {
+  int64 param_id = 1;
+  int32 mode = 2;
+  int32 value = 3;
+}
+
+message ReqSetGain {
+  int64 param_id = 1;
+  int32 mode = 2;
+  int32 value = 3;
+}
+
+message ReqSetWb {
+  int64 param_id = 1;
+  int32 mode = 2;
+  int32 value = 3;
+}
+
+message ReqSetGeneralIntParam {
+  int64 param_id = 1;
+  int32 value = 2;
+}
+
+message ReqSetGeneralFloatParam {
+  int64 param_id = 1;
+  float value = 2;
+}
+
+message ReqSetGeneralBoolParams {
+  int64 param_id = 1;
+  bool value = 2;
+}
+
+message ReqSetAutoParam {
+  int32 camera_type = 1;
+  int32 shooting_tech = 2;
+  bool is_auto = 3;
+}
+
+message ResSetAutoParam {
+  int32 shooting_mode = 1;
+  int32 camera_type = 2;
+  int32 shooting_tech = 3;
+  bool is_auto = 4;
+  bool update_all = 5;
+  int32 code = 6;
+}

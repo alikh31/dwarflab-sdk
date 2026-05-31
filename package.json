@@ -1,0 +1,37 @@
+{
+  "name": "dwarflab-sdk-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo for the unofficial DWARFLAB telescope TypeScript SDK",
+  "license": "MIT",
+  "author": "alikh31",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alikh31/dwarflab-sdk.git"
+  },
+  "homepage": "https://github.com/alikh31/dwarflab-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/alikh31/dwarflab-sdk/issues"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "eslint packages/*/src/",
+    "typecheck": "npm run typecheck --workspaces",
+    "proto:generate": "node scripts/generate-proto.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "eslint": "^9.18.0",
+    "prettier": "^3.5.0",
+    "protobufjs-cli": "^1.1.3",
+    "tsx": "^4.19.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0",
+    "vitest": "^3.0.4"
+  }
+}

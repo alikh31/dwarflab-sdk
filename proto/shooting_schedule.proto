@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+package dwarflab.schedule;
+
+option java_package = "com.convergence.dwarflab.proto";
+option java_outer_classname = "ScheduleProto";
+
+message ShootingTaskMsg {
+  string schedule_id = 1;
+  string params = 2;
+  int32 state = 3;
+  int32 code = 4;
+  int64 created_time = 5;
+  int64 updated_time = 6;
+  string schedule_task_id = 7;
+  int32 param_mode = 8;
+  int32 param_version = 9;
+  int32 create_from = 10;
+}
+
+message ShootingScheduleMsg {
+  string schedule_id = 1;
+  string schedule_name = 2;
+  int32 device_id = 3;
+  string mac_address = 4;
+  int64 start_time = 5;
+  int64 end_time = 6;
+  int32 result = 7;
+  int64 created_time = 8;
+  int64 updated_time = 9;
+  int32 state = 10;
+  int32 lock = 11;
+  string password = 12;
+  repeated ShootingTaskMsg shooting_tasks = 13;
+  int32 param_mode = 14;
+  int32 param_version = 15;
+  string params = 16;
+  int64 schedule_time = 17;
+  int32 sync_state = 18;
+}
+
+message ReqSyncShootingSchedule {
+  ShootingScheduleMsg shooting_schedule = 1;
+}
+
+message ResSyncShootingSchedule {
+  ShootingScheduleMsg shooting_schedule = 1;
+  repeated string time_conflict_schedule_ids = 2;
+  int32 code = 3;
+  bool can_replace = 4;
+}
+
+message ReqCancelShootingSchedule {
+  string id = 1;
+  string password = 2;
+}
+
+message ResCancelShootingSchedule {
+  string id = 1;
+  int32 code = 2;
+}
+
+message ReqGetAllShootingSchedule {}
+
+message ResGetAllShootingSchedule {
+  repeated ShootingScheduleMsg shooting_schedule = 1;
+  int32 code = 2;
+}
+
+message ReqGetShootingScheduleById {
+  string id = 1;
+}
+
+message ResGetShootingScheduleById {
+  ShootingScheduleMsg shooting_schedule = 1;
+  int32 code = 2;
+}
+
+message ReqReplaceShootingSchedule {
+  ShootingScheduleMsg shooting_schedule = 1;
+}
+
+message ResReplaceShootingSchedule {
+  repeated ShootingScheduleMsg shooting_schedule = 1;
+  repeated ShootingScheduleMsg replaced_shooting_schedule = 2;
+  int32 code = 3;
+}
+
+message ReqUnlockShootingSchedule {
+  string id = 1;
+  string password = 2;
+}
+
+message ResUnlockShootingSchedule {
+  string id = 1;
+  int32 code = 2;
+}
+
+message ReqLockShootingSchedule {
+  string id = 1;
+  string password = 2;
+}
+
+message ResLockShootingSchedule {
+  string id = 1;
+  string password = 2;
+  int32 code = 3;
+}
+
+message ReqDeleteShootingSchedule {
+  string id = 1;
+  string password = 2;
+}
+
+message ResDeleteShootingSchedule {
+  string id = 1;
+  int32 code = 2;
+}
