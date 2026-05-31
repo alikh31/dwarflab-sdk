@@ -1,6 +1,6 @@
 {
   "name": "@alikh/dwarflab-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Unofficial TypeScript SDK for controlling DWARFLAB DWARF telescopes over WebSocket and HTTP (browser + Node.js)",
   "type": "module",
   "exports": {

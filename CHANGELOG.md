@@ -10,6 +10,20 @@ together.
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-05-31
+
+First release published through the automated, tokenless CI pipeline
+(npm Trusted Publishing / OIDC), with provenance attestation.
+
+### Changed
+
+- Build tooling: the monorepo now builds `@alikh/dwarflab-sdk` before
+  `@alikh/dwarflab-ble` explicitly, so a clean checkout builds, typechecks, and
+  tests without a pre-existing `dist/`. CI runs lint → build → typecheck → test.
+- Expanded the maintainer release checklist in `CONTRIBUTING.md`.
+
+No runtime/API changes — source of both packages is identical to `0.1.0`.
+
 ## [0.1.0] - 2026-05-31
 
 Initial public release.
@@ -40,5 +54,6 @@ Initial public release.
   and DWARF Mini are protocol-compatible but **untested** — reports welcome.
 - This is an **unofficial** project and is not affiliated with DWARFLAB.
 
-[Unreleased]: https://github.com/alikh31/dwarflab-sdk/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/alikh31/dwarflab-sdk/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/alikh31/dwarflab-sdk/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/alikh31/dwarflab-sdk/releases/tag/v0.1.0

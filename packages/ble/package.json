@@ -1,6 +1,6 @@
 {
   "name": "@alikh/dwarflab-ble",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Unofficial BLE setup package for DWARFLAB DWARF telescopes — Wi-Fi configuration and discovery (Node.js only)",
   "type": "module",
   "exports": {
