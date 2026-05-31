@@ -3,9 +3,16 @@ name: Release
 # Publishes both packages to npm when a version tag is pushed, e.g.:
 #   git tag v0.1.0 && git push origin v0.1.0
 #
-# Requires repository secret NPM_TOKEN (an npm *automation* token with
-# publish access to the @alikh scope). Provenance is enabled via the
-# packages' publishConfig and the id-token permission below.
+# Authentication uses npm Trusted Publishing (OIDC) — there is NO npm token.
+# GitHub's OIDC identity for this workflow is exchanged for a short-lived,
+# single-use npm publish credential. Provenance attestation is automatic.
+#
+# One-time setup on npmjs.com (per package, after the first manual publish):
+#   Package → Settings → Trusted Publisher → GitHub Actions, with:
+#     Organization/user:  alikh31
+#     Repository:         dwarflab-sdk
+#     Workflow filename:  release.yml
+#   See the repo README/CONTRIBUTING for the full walkthrough.
 
 on:
   push:
@@ -14,11 +21,11 @@ on:
 
 jobs:
   publish:
-    name: Build & publish to npm
+    name: Build & publish to npm (Trusted Publishing)
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # required for npm provenance (OIDC)
+      id-token: write # required for OIDC Trusted Publishing + provenance
 
     steps:
       - name: Checkout
@@ -30,6 +37,13 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org
           cache: npm
+
+      # Trusted Publishing requires npm >= 11.5.1, which is newer than the npm
+      # bundled with Node 20. Upgrade the CLI before publishing.
+      - name: Upgrade npm (Trusted Publishing needs npm >= 11.5.1)
+        run: |
+          npm install -g npm@latest
+          npm --version
 
       - name: Install dependencies
         run: npm ci
@@ -61,14 +75,11 @@ jobs:
           fi
 
       # Publish the core SDK first; @alikh/dwarflab-ble depends on it.
-      # `npm publish` honors each package's publishConfig (access: public,
-      # provenance: true). --provenance is also passed explicitly for clarity.
+      # No NODE_AUTH_TOKEN: Trusted Publishing mints the credential via OIDC.
+      # Each package's publishConfig sets access:public + provenance:true;
+      # --provenance/--access are passed explicitly for clarity.
       - name: Publish @alikh/dwarflab-sdk
         run: npm publish --workspace @alikh/dwarflab-sdk --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish @alikh/dwarflab-ble
         run: npm publish --workspace @alikh/dwarflab-ble --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
