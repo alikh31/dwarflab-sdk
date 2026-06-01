@@ -64,8 +64,23 @@ jobs:
           fi
 
       # Publish the core SDK first; @alikh/dwarflab-ble depends on it.
+      # Each publish is idempotent: if this exact version is already on the
+      # registry it is skipped, so the release can be safely re-run to publish
+      # only what is still missing (e.g. after fixing one package's config).
       - name: Publish @alikh/dwarflab-sdk
-        run: npm publish --workspace @alikh/dwarflab-sdk --provenance --access public
+        run: |
+          VER=$(node -p "require('./packages/sdk/package.json').version")
+          if [ "$(npm view @alikh/dwarflab-sdk@"$VER" version 2>/dev/null)" = "$VER" ]; then
+            echo "@alikh/dwarflab-sdk@$VER already published — skipping."
+          else
+            npm publish --workspace @alikh/dwarflab-sdk --provenance --access public
+          fi
 
       - name: Publish @alikh/dwarflab-ble
-        run: npm publish --workspace @alikh/dwarflab-ble --provenance --access public
+        run: |
+          VER=$(node -p "require('./packages/ble/package.json').version")
+          if [ "$(npm view @alikh/dwarflab-ble@"$VER" version 2>/dev/null)" = "$VER" ]; then
+            echo "@alikh/dwarflab-ble@$VER already published — skipping."
+          else
+            npm publish --workspace @alikh/dwarflab-ble --provenance --access public
+          fi
